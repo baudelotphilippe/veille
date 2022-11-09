@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\LienRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -40,6 +41,10 @@ class Lien
      */
     private $createdAt;
 
+    public function __construct()
+    {
+        $this->createdAt = new DateTime();
+    }
     public function getId(): ?int
     {
         return $this->id;
