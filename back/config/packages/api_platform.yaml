@@ -1,4 +1,7 @@
 api_platform:
+    title: 'Veille API'
+    description: 'Symfony API de gestion de veille.'
+    version: '1.0.0'
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:
