@@ -10,6 +10,7 @@
 
 // // start the Stimulus application
 // import './bootstrap';
+require('bootstrap/dist/css/bootstrap.css');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
