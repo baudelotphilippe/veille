@@ -20,10 +20,13 @@ class Home extends React.Component {
 
   render() {
     return (
-      <>
-        <AddLien loadAll={this.loadAll} />
-        <Liens liens={this.state.liens} />
-      </>
+      <div className="container">
+        <h1>Gestionnaire de liens</h1>
+        <article>
+        <section><AddLien loadAll={this.loadAll} /></section>
+        <section><Liens liens={this.state.liens} /></section>
+        </article>
+      </div>
     );
   }
 }

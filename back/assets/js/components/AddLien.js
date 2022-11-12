@@ -27,13 +27,13 @@ export default class AddLien extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='p-4 mb-4'>
         <form onSubmit={this.handleSubmit}>
           <label>
-            URL :
-            <input type="text" name="url" onChange={this.handleChange} />
+            URL 
+            <input className='ms-2' type="text" name="url" onChange={this.handleChange} placeholder="http://..."/>
           </label>
-          <button type="submit">Add</button>
+          <button className='btn btn-sm btn-primary ms-2' type="submit">Ajouter</button>
         </form>
       </div>
     )
