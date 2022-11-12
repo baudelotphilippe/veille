@@ -17,3 +17,8 @@ section{
 .heure{
     font-size: 12px;
 }
+
+.delete{
+    color: #d00c0c;
+    cursor: pointer;
+}

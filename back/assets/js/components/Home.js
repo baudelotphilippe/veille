@@ -18,13 +18,20 @@ class Home extends React.Component {
     });
   };
 
+  delete=(id) => {
+    console.log("delete", id)
+    axios.delete(`http://127.0.0.1:8000/api/liens/${id}`).then((res) => {
+      this.loadAll()
+    });
+  }
+
   render() {
     return (
       <div className="container">
         <h1>Gestionnaire de liens</h1>
         <article>
         <section><AddLien loadAll={this.loadAll} /></section>
-        <section><Liens liens={this.state.liens} /></section>
+        <section><Liens liens={this.state.liens} delete={this.delete}/></section>
         </article>
       </div>
     );
