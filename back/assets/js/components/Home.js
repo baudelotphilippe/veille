@@ -1,23 +1,19 @@
 import React from "react";
 import Liens from "./Liens";
 import AddLien from "./AddLien";
-import { Link } from "react-router-dom";
+import Topbar from "./Topbar";
+
 import axios from "axios";
+import * as AxiosServices from "../services/AxiosService";
 class Home extends React.Component {
   state = {
     liens: [],
   };
 
-  componentDidMount() {
-    this.loadAll();
+  async componentDidMount() {
+    const data = await AxiosServices.loadAll()
+    this.setState({ liens: data });
   }
-
-  loadAll = () => {
-    axios.get(`http://127.0.0.1:8000/api/liens`).then((res) => {
-      const liens = res.data["hydra:member"];
-      this.setState({ liens: liens });
-    });
-  };
 
   delete = (id) => {
     console.log("delete", id);
@@ -29,8 +25,10 @@ class Home extends React.Component {
   render() {
     return (
       <div className="container">
-        <Link to="/login">Login</Link>
+        <div className="d-flex align-items-center justify-content-between">
         <h1>Gestionnaire de liens</h1>
+        <Topbar />
+        </div>
         <article>
           <section>
             <AddLien loadAll={this.loadAll} />

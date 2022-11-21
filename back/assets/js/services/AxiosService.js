@@ -1,27 +1,36 @@
 import axios from "axios";
 
-export function authenticate(credentials) {
-//   const credentials = {
-//     username: "phil",
-//     password: "phil",
-//   };
+export async function authenticate(credentials) {
 
-//   console.log(infos);
-  axios
+  return axios
     .post("http://127.0.0.1:8000/api/login", credentials)
     .then((response) => response.data.token)
     .then((token) => {
-      console.log(token);
-      // // Je stocke le token dans mon localStorage
-      // window.localStorage.setItem("authToken", token);
-      // // On prévient Axios qu'on a maintenant un header par défaut sur toutes nos futures requetes HTTP
+      localStorage.setItem("authToken", token);
       setAxiosToken(token);
-    });
+      return true;
+    })
+    .catch(function (error) {
+      console.log(error.response.status) // 401
+      if(error.response.status==401){
+        return false;
+      };
+  })
+}
+
+export function isConnected() {
+  const tokenString = localStorage.getItem('authToken');
+  const userToken = tokenString !== null ? true : false
+  return userToken
+}
+
+export function logout(){
+  localStorage.removeItem("authToken");
 }
 
  const setAxiosToken = (token)=>{
   axios.defaults.headers["Authorization"] = "Bearer " + token;
-  loadAllUser();
+  loadAllUser();// tmp, pour test car loadAllUser est accessible seulement si on a un tocken
 };
 
 const loadAllUser = () => {
@@ -32,10 +41,11 @@ const loadAllUser = () => {
   };
 
 export function loadAll() {
-    axios.get(`http://127.0.0.1:8000/api/liens`).then((res) => {
+   return axios.get(`http://127.0.0.1:8000/api/liens`).then((res) => {
       const liens = res.data["hydra:member"];
-      return liens
+       return liens
     });
+    
   };
 
  export function supprime(id) {
