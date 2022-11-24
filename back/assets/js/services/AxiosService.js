@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function authenticate(credentials) {
+export function authenticate(credentials) {
 
   return axios
     .post("http://127.0.0.1:8000/api/login", credentials)
@@ -8,7 +8,19 @@ export async function authenticate(credentials) {
     .then((token) => {
       localStorage.setItem("authToken", token);
       setAxiosToken(token);
-      return true;
+    })
+}
+
+export async function createUser(credentials) {
+
+  return axios
+    .post("http://127.0.0.1:8000/api/users", credentials)
+    .then((response) => response.data.token)
+    .then((token) => {
+      // localStorage.setItem("authToken", token);
+      // setAxiosToken(token);
+      // return true;
+      console.log(token)
     })
     .catch(function (error) {
       console.log(error.response.status) // 401
