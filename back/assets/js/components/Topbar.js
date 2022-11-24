@@ -29,7 +29,7 @@ export default class Topbar extends React.Component{
         }else {
             return(
                 <>
-                    <Link to="/login">Login</Link>
+                    <div><Link to="/login">Login</Link> | <Link to="/register">Register</Link> </div>
                 </>
             )
         }

@@ -18,13 +18,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "../styles/app.css";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import Register from "./components/Register";
+import { createRoot } from 'react-dom/client';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
     </Routes>
-  </BrowserRouter>,
-  document.getElementById("root")
+  </BrowserRouter>
 );
