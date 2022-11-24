@@ -10,9 +10,7 @@ const Login =(props) =>{
 
 
 
- const  handleSubmit= (event) => {
-  console.log("🚀 ~ file: Login.js ~ line 14 ~ handleSubmit ~ event", event)
-  
+ const  handleSubmit= (event) => {  
   event.preventDefault();
 
     AxiosServices.authenticate(user)
@@ -22,6 +20,12 @@ const Login =(props) =>{
     })
   }
 
+  const handleChange = (e) =>{
+    // e => setUser({...user, username: e.target.value})
+    console.log(e,e.target)
+    const {name, value}=e.target
+    setUser({...user, [name]:value })
+  }
 
     return (
       <div className="container d-flex flex-column align-items-center">
@@ -34,7 +38,7 @@ const Login =(props) =>{
               type="text"
               name="username"
               value={user.username}
-              onChange={e => setUser({...user, username: e.target.value})}
+              onChange={handleChange}
               className="form-control"
             />{" "}
           </label>
@@ -46,7 +50,7 @@ const Login =(props) =>{
               type="password"
               name="password"
               value={user.password}
-              onChange={e => setUser({...user, password: e.target.value})}
+              onChange={handleChange}
               className="form-control"
             />{" "}
           </label>
