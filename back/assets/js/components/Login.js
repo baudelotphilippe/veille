@@ -17,12 +17,6 @@ const Login =(props) =>{
         errors.username = "Username is required!";
     }
 
-    if(!values.email){
-        errors.email= "Email is required!";
-    }else if(!regex.test(values.email)){
-        errors.email = "This is not a valid email format!";
-    }
-
     if(!values.password){
         errors.password= "Password is required!";
     } else if(values.password <4){
@@ -36,6 +30,8 @@ const Login =(props) =>{
  const  handleSubmit= (event) => {  
   event.preventDefault();
   setFormErrors(validate(user));
+  console.log(formErrors)
+  
     AxiosServices.authenticate(user)
     .then(() => navigate("/"))
     .catch(e => {
@@ -45,14 +41,15 @@ const Login =(props) =>{
 
   const handleChange = (e) =>{
     // e => setUser({...user, username: e.target.value})
-    console.log(e,e.target)
+    // console.log(e,e.target)
     const {name, value}=e.target
     setUser({...user, [name]:value })
   }
 
   useEffect( () => {
     console.log("in useeffect")
-  })
+  },[])
+
     return (
       <div className="container d-flex flex-column align-items-center">
         <h1 className="mb-3">S'identifier</h1>
