@@ -1,28 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Liens from "./Liens";
 import AddLien from "./AddLien";
 import Topbar from "./Topbar";
 
-import axios from "axios";
 import * as AxiosServices from "../services/AxiosService";
-class Home extends React.Component {
-  state = {
-    liens: [],
-  };
+import axios from "axios";
+const Home = () =>{
+  const [liens, setLiens]=useState([]);
 
-  async componentDidMount() {
-    const data = await AxiosServices.loadAll()
-    this.setState({ liens: data });
-  }
+  useEffect( () => {
+    AxiosServices.loadAll()
+    .then((data) =>  setLiens( data ))
+  },[]
+  )
 
-  delete = (id) => {
+  const supp = (id) => {
     console.log("delete", id);
     axios.delete(`http://127.0.0.1:8000/api/liens/${id}`).then((res) => {
-      this.loadAll();
+      // this.loadAll();
     });
   };
 
-  render() {
+
     return (
       <div className="container">
         <div className="d-flex align-items-center justify-content-between">
@@ -31,15 +30,14 @@ class Home extends React.Component {
         </div>
         <article>
           <section>
-            <AddLien loadAll={this.loadAll} />
+            <AddLien liens={liens} />
           </section>
           <section>
-            <Liens liens={this.state.liens} delete={this.delete} />
+            <Liens liens={liens} supp={supp} />
           </section>
         </article>
       </div>
     );
   }
-}
 
 export default Home;

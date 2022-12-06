@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export function authenticate(credentials) {
-
+  console.log("validate")
   return axios
     .post("http://127.0.0.1:8000/api/login", credentials)
     .then((response) => response.data.token)
@@ -11,23 +11,15 @@ export function authenticate(credentials) {
     })
 }
 
-export async function createUser(credentials) {
-
+export function createUser(credentials) {
+console.log(credentials)
   return axios
     .post("http://127.0.0.1:8000/api/users", credentials)
     .then((response) => response.data.token)
     .then((token) => {
-      // localStorage.setItem("authToken", token);
+      localStorage.setItem("authToken", token);
       // setAxiosToken(token);
-      // return true;
-      console.log(token)
     })
-    .catch(function (error) {
-      console.log(error.response.status) // 401
-      if(error.response.status==401){
-        return false;
-      };
-  })
 }
 
 export function isConnected() {
@@ -42,7 +34,6 @@ export function logout(){
 
  const setAxiosToken = (token)=>{
   axios.defaults.headers["Authorization"] = "Bearer " + token;
-  loadAllUser();// tmp, pour test car loadAllUser est accessible seulement si on a un tocken
 };
 
 const loadAllUser = () => {
