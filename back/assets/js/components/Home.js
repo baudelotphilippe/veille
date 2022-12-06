@@ -1,41 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Liens from "./Liens";
 import AddLien from "./AddLien";
+import Topbar from "./Topbar";
+
+import * as AxiosServices from "../services/AxiosService";
 import axios from "axios";
-class Home extends React.Component {
-  state = {
-    liens: [],
-  };
+const Home = () =>{
+  const [liens, setLiens]=useState([]);
 
-  componentDidMount() {
-    this.loadAll();
-  }
+  useEffect( () => {
+    AxiosServices.loadAll()
+    .then((data) =>  setLiens( data ))
+  },[]
+  )
 
-  loadAll = () => {
-    axios.get(`http://127.0.0.1:8000/api/liens`).then((res) => {
-      const liens = res.data["hydra:member"];
-      this.setState({ liens: liens });
-    });
-  };
-
-  delete=(id) => {
-    console.log("delete", id)
+  const supp = (id) => {
+    console.log("delete", id);
     axios.delete(`http://127.0.0.1:8000/api/liens/${id}`).then((res) => {
-      this.loadAll()
+      // this.loadAll();
     });
-  }
+  };
 
-  render() {
+
     return (
       <div className="container">
+        <div className="d-flex align-items-center justify-content-between">
         <h1>Gestionnaire de liens</h1>
+        <Topbar />
+        </div>
         <article>
-        <section><AddLien loadAll={this.loadAll} /></section>
-        <section><Liens liens={this.state.liens} delete={this.delete}/></section>
+          <section>
+            <AddLien liens={liens} />
+          </section>
+          <section>
+            <Liens liens={liens} supp={supp} />
+          </section>
         </article>
       </div>
     );
   }
-}
 
 export default Home;
