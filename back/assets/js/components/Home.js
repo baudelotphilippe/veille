@@ -5,10 +5,14 @@ import Topbar from "./Topbar";
 
 import * as AxiosServices from "../services/AxiosService";
 import axios from "axios";
+
 const Home = () =>{
   const [liens, setLiens]=useState([]);
+  const [isConnected, setIsConnected]= useState(false)
 
   useEffect( () => {
+    AxiosServices.isConnected() ? setIsConnected(true) : setIsConnected(false)
+
     AxiosServices.loadAll()
     .then((data) =>  setLiens( data ))
   },[]
@@ -29,9 +33,11 @@ const Home = () =>{
         <Topbar />
         </div>
         <article>
-          <section>
-            <AddLien liens={liens} />
-          </section>
+          {isConnected&&
+            <section>
+              <AddLien liens={liens} />
+            </section>
+          }
           <section>
             <Liens liens={liens} supp={supp} />
           </section>
