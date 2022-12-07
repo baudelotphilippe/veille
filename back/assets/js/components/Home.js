@@ -5,35 +5,49 @@ import Topbar from "./Topbar";
 
 import * as AxiosServices from "../services/AxiosService";
 import axios from "axios";
+
 const Home = () =>{
   const [liens, setLiens]=useState([]);
+  const [isConnected, setIsConnected]= useState(false)
 
   useEffect( () => {
-    AxiosServices.loadAll()
-    .then((data) =>  setLiens( data ))
-  },[]
+    AxiosServices.isConnected() ? setIsConnected(true) : setIsConnected(false);
+    loadAll();
+    }
+    ,[]
   )
 
+  const deconnected= ()=>{
+    console.log('deco')
+    setIsConnected(false)
+  }
+
+  const loadAll= ()=> {
+    // console.log("inside load all")
+    AxiosServices.loadAll()
+    .then((data) =>  setLiens( data ))
+  }
+
   const supp = (id) => {
-    console.log("delete", id);
     axios.delete(`http://127.0.0.1:8000/api/liens/${id}`).then((res) => {
-      // this.loadAll();
+      loadAll();
     });
   };
-
 
     return (
       <div className="container">
         <div className="d-flex align-items-center justify-content-between">
         <h1>Gestionnaire de liens</h1>
-        <Topbar />
+        <Topbar isConnected={isConnected} deconnected={deconnected}/>
         </div>
         <article>
+          {isConnected&&
+            <section>
+              <AddLien addLien={loadAll}/>
+            </section>
+          }
           <section>
-            <AddLien liens={liens} />
-          </section>
-          <section>
-            <Liens liens={liens} supp={supp} />
+            <Liens liens={liens} supp={supp} isConnected={isConnected} />
           </section>
         </article>
       </div>

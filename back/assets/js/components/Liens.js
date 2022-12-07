@@ -27,10 +27,13 @@ export default class Liens extends React.Component {
                   <i className="me-2 fa-solid fa-clock"></i>
                   {dayPublish[2]} {dayPublish[1]} {dayPublish[0]}
                 </span>
-                <i
+
+                {this.props.isConnected&&
+                  <i
                   className="fa-solid fa-trash delete"
                   onClick={(e) => this.handleClick(lien.id, e)}
-                ></i>
+                ></i>}
+
               </div>
             </div>
           );

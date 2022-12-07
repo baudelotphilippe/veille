@@ -1,41 +1,51 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
-export default class AddLien extends React.Component {
-  state = {
-    url: ''
-  }
+const AddLien = ({ addLien }) => {
+  const [url, setUrl] = useState("");
+  let [addLinkError, setAddLinkError] = useState("");
 
-  handleChange = event => {
-    this.setState({ url: event.target.value });
-  }
+  const handleChange = (event) => {
+    setUrl(event.target.value);
+  };
 
-  handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
+    setAddLinkError("");
+    if (url == "") {
+      setAddLinkError("Le lien ne peux pas être vide");
+    } else if (!(url.startsWith("http://") || url.startsWith("https://"))) {
+      setAddLinkError("Le lien doit contenir le protocole http ou https");
+    } else {
+      axios.post(`http://127.0.0.1:8000/api/liens`, { url }).then((res) => {
+        addLien(true);
+      });
+    }
+  };
 
-    const url = {
-      url: this.state.url
-    };
+  return (
+    <div className="p-4 mb-4">
+      <form onSubmit={handleSubmit}>
+        <label>
+          URL
+          <input
+            className="ms-2"
+            type="text"
+            name="url"
+            onChange={handleChange}
+            value={url}
+            placeholder="http(s)://..."
+          />
+        </label>
+        <button className="btn btn-sm btn-primary ms-2" type="submit">
+          Ajouter
+        </button>
+        {addLinkError && (
+          <p className="alert alert-danger mt-3">{addLinkError}</p>
+        )}
+      </form>
+    </div>
+  );
+};
 
-    axios.post(`http://127.0.0.1:8000/api/liens`, url )
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-        this.props.loadAll()
-      })
-  }
-
-  render() {
-    return (
-      <div className='p-4 mb-4'>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            URL 
-            <input className='ms-2' type="text" name="url" onChange={this.handleChange} placeholder="http://..."/>
-          </label>
-          <button className='btn btn-sm btn-primary ms-2' type="submit">Ajouter</button>
-        </form>
-      </div>
-    )
-  }
-}
+export default AddLien;
