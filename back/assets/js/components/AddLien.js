@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const AddLien=() =>{
+const AddLien=({addLien}) =>{
   const [url, setUrl]= useState('')
 
 
@@ -12,15 +12,9 @@ const AddLien=() =>{
   const handleSubmit = event => {
     event.preventDefault();
 
-    // const url = {
-    //   url: url
-    // };
-
     axios.post(`http://127.0.0.1:8000/api/liens`, {url} )
       .then(res => {
-        console.log(res);
-        console.log(res.data);
-        // this.props.loadAll()
+        addLien(true)
       })
   }
 

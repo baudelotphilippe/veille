@@ -11,20 +11,23 @@ const Home = () =>{
   const [isConnected, setIsConnected]= useState(false)
 
   useEffect( () => {
-    AxiosServices.isConnected() ? setIsConnected(true) : setIsConnected(false)
-
-    AxiosServices.loadAll()
-    .then((data) =>  setLiens( data ))
-  },[]
+    AxiosServices.isConnected() ? setIsConnected(true) : setIsConnected(false);
+    loadAll();
+    }
+    ,[]
   )
 
+  const loadAll= ()=> {
+    console.log("inside load all")
+    AxiosServices.loadAll()
+    .then((data) =>  setLiens( data ))
+  }
+
   const supp = (id) => {
-    console.log("delete", id);
     axios.delete(`http://127.0.0.1:8000/api/liens/${id}`).then((res) => {
-      // this.loadAll();
+      loadAll();
     });
   };
-
 
     return (
       <div className="container">
@@ -35,7 +38,7 @@ const Home = () =>{
         <article>
           {isConnected&&
             <section>
-              <AddLien liens={liens} />
+              <AddLien addLien={loadAll} />
             </section>
           }
           <section>
