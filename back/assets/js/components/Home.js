@@ -17,8 +17,13 @@ const Home = () =>{
     ,[]
   )
 
+  const deconnected= ()=>{
+    console.log('deco')
+    setIsConnected(false)
+  }
+
   const loadAll= ()=> {
-    console.log("inside load all")
+    // console.log("inside load all")
     AxiosServices.loadAll()
     .then((data) =>  setLiens( data ))
   }
@@ -33,16 +38,16 @@ const Home = () =>{
       <div className="container">
         <div className="d-flex align-items-center justify-content-between">
         <h1>Gestionnaire de liens</h1>
-        <Topbar />
+        <Topbar isConnected={isConnected} deconnected={deconnected}/>
         </div>
         <article>
           {isConnected&&
             <section>
-              <AddLien addLien={loadAll} />
+              <AddLien addLien={loadAll}/>
             </section>
           }
           <section>
-            <Liens liens={liens} supp={supp} />
+            <Liens liens={liens} supp={supp} isConnected={isConnected} />
           </section>
         </article>
       </div>
