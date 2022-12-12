@@ -29,7 +29,7 @@ const Home = () =>{
   }
 
   const supp = (id) => {
-    axios.delete(`http://127.0.0.1:8000/api/liens/${id}`).then((res) => {
+    axios.delete(`https://still-atoll-53814.herokuapp.com/api/liens/${id}`).then((res) => {
       loadAll();
     });
   };
