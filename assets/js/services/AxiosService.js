@@ -3,7 +3,7 @@ import axios from "axios";
 export function authenticate(credentials) {
   console.log("validate")
   return axios
-    .post("http://127.0.0.1:8000/api/login", credentials)
+    .post("http://https://still-atoll-53814.herokuapp.com/api/login", credentials)
     .then((response) => response.data.token)
     .then((token) => {
       localStorage.setItem("authToken", token);
@@ -14,7 +14,7 @@ export function authenticate(credentials) {
 export function createUser(credentials) {
 console.log(credentials)
   return axios
-    .post("http://127.0.0.1:8000/api/users", credentials)
+    .post("http://https://still-atoll-53814.herokuapp.com/api/users", credentials)
     .then((response) => response.data.token)
     .then((token) => {
       localStorage.setItem("authToken", token);
@@ -37,14 +37,14 @@ export function logout(){
 };
 
 const loadAllUser = () => {
-    axios.get(`http://127.0.0.1:8000/api/users`).then((res) => {
+    axios.get(`http://https://still-atoll-53814.herokuapp.com/api/users`).then((res) => {
       const liens = res.data["hydra:member"];
       console.log(liens);
     });
   };
 
 export function loadAll() {
-   return axios.get(`http://127.0.0.1:8000/api/liens`).then((res) => {
+   return axios.get(`http://https://still-atoll-53814.herokuapp.com/api/liens`).then((res) => {
       const liens = res.data["hydra:member"];
        return liens
     });
@@ -53,7 +53,7 @@ export function loadAll() {
 
  export function supprime(id) {
     console.log("delete", id);
-    axios.delete(`http://127.0.0.1:8000/api/liens/${id}`).then((res) => {
+    axios.delete(`http://https://still-atoll-53814.herokuapp.com/api/liens/${id}`).then((res) => {
       this.loadAll();
     });
   };

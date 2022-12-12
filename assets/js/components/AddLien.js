@@ -17,7 +17,7 @@ const AddLien = ({ addLien }) => {
     } else if (!(url.startsWith("http://") || url.startsWith("https://"))) {
       setAddLinkError("Le lien doit contenir le protocole http ou https");
     } else {
-      axios.post(`http://127.0.0.1:8000/api/liens`, { url }).then((res) => {
+      axios.post(`http://https://still-atoll-53814.herokuapp.com/api/liens`, { url }).then((res) => {
         addLien(true);
       });
     }
