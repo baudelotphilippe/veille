@@ -12,7 +12,7 @@ export function authenticate(credentials) {
 }
 
 export function createUser(credentials) {
-console.log(credentials)
+  // console.log(credentials)
   return axios
     .post("${process.env.URL_PROJECT}api/users", credentials)
     .then((response) => response.data.token)
@@ -39,7 +39,7 @@ export function logout(){
 const loadAllUser = () => {
     axios.get(`${process.env.URL_PROJECT}api/users`).then((res) => {
       const liens = res.data["hydra:member"];
-      console.log(liens);
+      // console.log(liens);
     });
   };
 

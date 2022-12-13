@@ -3,11 +3,9 @@ import React from "react";
 export default class Liens extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
   }
 
   handleClick(id, e) {
-    console.log(id, e);
     this.props.supp(id)
   }
 
