@@ -3,10 +3,11 @@ import axios from "axios";
 export function authenticate(credentials) {
   console.log("validate")
   return axios
-    .post("${process.env.URL_PROJECT}api/login", credentials)
+    .post(`${process.env.URL_PROJECT}api/login`, credentials)
     .then((response) => response.data.token)
     .then((token) => {
       localStorage.setItem("authToken", token);
+      console.log(token)
       setAxiosToken(token);
     })
 }
@@ -14,7 +15,7 @@ export function authenticate(credentials) {
 export function createUser(credentials) {
   // console.log(credentials)
   return axios
-    .post("${process.env.URL_PROJECT}api/users", credentials)
+    .post(`${process.env.URL_PROJECT}api/users`, credentials)
     .then((response) => response.data.token)
     .then((token) => {
       localStorage.setItem("authToken", token);
@@ -53,7 +54,8 @@ export function loadAll() {
 
  export function supprime(id) {
     console.log("delete", id);
-    axios.delete(`${process.env.URL_PROJECT}api/liens/${id}`).then((res) => {
-      this.loadAll();
+    return axios.delete(`${process.env.URL_PROJECT}api/liens/${id}`)
+    .then((res) => {
+      return res;
     });
   };
