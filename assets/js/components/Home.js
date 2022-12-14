@@ -4,7 +4,6 @@ import AddLien from "./AddLien";
 import Topbar from "./Topbar";
 
 import * as AxiosServices from "../services/AxiosService";
-import axios from "axios";
 
 const Home = () =>{
   const [liens, setLiens]=useState([]);
@@ -28,8 +27,9 @@ const Home = () =>{
     .then((data) =>  setLiens( data ))
   }
 
-  const supp = (id) => {
-    axios.delete(`${process.env.URL_PROJECT}/api/liens/${id}`).then((res) => {
+  const suppr = (id) => {
+    AxiosServices.supprime(`${id}`)
+    .then((res) => {
       loadAll();
     });
   };
@@ -47,7 +47,7 @@ const Home = () =>{
             </section>
           }
           <section>
-            <Liens liens={liens} supp={supp} isConnected={isConnected} />
+            <Liens lesLiens={liens} isConnected={isConnected} supp={suppr} />
           </section>
         </article>
       </div>
