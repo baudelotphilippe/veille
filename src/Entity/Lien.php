@@ -4,6 +4,8 @@ namespace App\Entity;
 
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\LienRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -41,9 +43,16 @@ class Lien
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Tags::class, inversedBy="liens", cascade={"persist"})
+     * @Groups({"read","write"})
+     */
+    private $tags;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
+        $this->tags = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -70,6 +79,30 @@ class Lien
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tags[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tags $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tags $tag): self
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }
