@@ -11,41 +11,42 @@ use App\Repository\LienRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ApiResource( 
- *      normalizationContext={"groups"={"read"}},
- *      denormalizationContext={"groups"={"write"}}
- * )
- * @ORM\Entity(repositoryClass=LienRepository::class)
- */
-class Lien
+/** 
+  * @ApiResource( 
+  *      normalizationContext={"groups"={"lien:read"}},
+  *      denormalizationContext={"groups"={"lien:write"}},
+  *      order={"createdAt"="DESC"}
+  * )
+  * @ORM\Entity(repositoryClass=LienRepository::class)
+  */
+  class Lien
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * 
-     * @Groups("read")
+     * @Groups("lien:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=500)
      * 
-     *  @Groups({"read","write"})
+     *  @Groups({"lien:read","lien:write"})
      */
     private $url;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * 
-     *  @Groups("read")
+     *  @Groups("lien:read")
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tags::class, inversedBy="liens", cascade={"persist"})
-     * @Groups({"read","write"})
+     * @Groups({"lien:read","lien:write"})
      */
     private $tags;
 

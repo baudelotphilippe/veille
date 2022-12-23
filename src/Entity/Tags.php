@@ -24,17 +24,19 @@ class Tags
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("tag:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"tags:read", "tags:write", "article:read", "article:write"})
+     * @Groups({"tags:read", "tags:write", "lien:read", "lien:write"})
      */
     private $label;
 
     /**
      * @ORM\ManyToMany(targetEntity=Lien::class, mappedBy="tags")
+     * @ApiSubresource
      */
     private $liens;
 

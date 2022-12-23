@@ -1,9 +1,23 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Multiselect } from "react-widgets/cjs";
+import "react-widgets/styles.css";
 
 const AddLien = ({ addLien }) => {
   const [url, setUrl] = useState("");
   let [addLinkError, setAddLinkError] = useState("");
+
+  const [tagValue, setTagValue] = useState([]);
+  const [tag, setTag] = useState([
+    { label: "Red", id: 1 },
+    { label: "Yellow", id: 2 },
+  ]);
+
+  function handleCreateTag(name) {
+    let newOption = { label: name, id: tag.length + 1 };
+    setTagValue([...tagValue, newOption]);
+    setTag((data) => [newOption, ...data]);
+  }
 
   const handleChange = (event) => {
     setUrl(event.target.value);
@@ -13,13 +27,22 @@ const AddLien = ({ addLien }) => {
     event.preventDefault();
     setAddLinkError("");
     if (url == "") {
-      setAddLinkError("Le lien ne peux pas être vide");
+      setAddLinkError("Le lien ne peut pas être vide");
     } else if (!(url.startsWith("http://") || url.startsWith("https://"))) {
       setAddLinkError("Le lien doit contenir le protocole http ou https");
     } else {
-      axios.post(`${process.env.URL_PROJECT}/api/liens`, { url }).then((res) => {
-        addLien(true);
-      });
+      //vire ids
+      const newTags=tagValue.map(({id, ...rest}) =>{
+        return rest
+      })
+      axios
+        .post(`${process.env.URL_PROJECT}api/liens`, {url:url, tags:newTags})
+        .then((res) => {
+          addLien(true);
+        });
+      
+        setUrl("")
+        setTagValue([])
     }
   };
 
@@ -43,6 +66,14 @@ const AddLien = ({ addLien }) => {
         {addLinkError && (
           <p className="alert alert-danger mt-3">{addLinkError}</p>
         )}
+        <Multiselect
+          allowCreate={true}
+          textField="label"
+          data={tag}
+          value={tagValue}
+          onCreate={handleCreateTag}
+          onChange={setTagValue}
+        />
       </form>
     </div>
   );
