@@ -27,6 +27,11 @@ const Liens = ({ lesLiens, isConnected, supp }) => {
                 ></i>
               )}
             </div>
+            <div>
+              { lien.tags.map((tag)=> 
+                <span className="badge bg-info text-dark mx-1">{tag.label}</span>
+              )}
+            </div>
           </div>
         );
       })}
