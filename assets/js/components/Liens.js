@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 
-const Liens = ({ lesLiens ,  isConnected , supp }) => {
+const Liens = ({ lesLiens, isConnected, supp }) => {
+  const handleSupp = (id) => {
+    supp(id);
+  };
   return (
     <>
       {lesLiens.map((lien) => {
@@ -18,7 +21,10 @@ const Liens = ({ lesLiens ,  isConnected , supp }) => {
               </span>
 
               {isConnected && (
-                <i className="fa-solid fa-trash delete" onClick={supp}></i>
+                <i
+                  className="fa-solid fa-trash delete"
+                  onClick={() => handleSupp(lien.id)}
+                ></i>
               )}
             </div>
           </div>
