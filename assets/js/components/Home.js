@@ -28,7 +28,7 @@ const Home = () =>{
   }
 
   const suppr = (id) => {
-    AxiosServices.supprime(`${id}`)
+    AxiosServices.supprime(id)
     .then((res) => {
       loadAll();
     });
