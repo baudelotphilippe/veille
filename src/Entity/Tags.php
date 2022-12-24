@@ -15,7 +15,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=TagsRepository::class)
  * @ApiResource(
  *     normalizationContext={"groups"={"tag:read"}},
- *     denormalizationContext={"groups"={"tag:write"}})
+ *     denormalizationContext={"groups"={"tag:write"}}),
+ *     order={"label"="ASC"}
  */
 // #[ApiResource]
 class Tags
@@ -30,7 +31,7 @@ class Tags
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"tags:read", "tags:write", "lien:read", "lien:write"})
+     * @Groups({"tag:read", "tag:write", "lien:read", "lien:write"})
      */
     private $label;
 
