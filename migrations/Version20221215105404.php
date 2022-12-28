@@ -21,7 +21,7 @@ final class Version20221215105404 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         // $this->addSql('DROP SEQUENCE article_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE messenger_messages_id_seq CASCADE');
+        // $this->addSql('DROP SEQUENCE messenger_messages_id_seq CASCADE');
         $this->addSql('CREATE SEQUENCE tags_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE lien_tags (lien_id INT NOT NULL, tags_id INT NOT NULL, PRIMARY KEY(lien_id, tags_id))');
         $this->addSql('CREATE INDEX IDX_8C31C3C6EDAAC352 ON lien_tags (lien_id)');
