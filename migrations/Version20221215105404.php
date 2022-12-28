@@ -30,7 +30,7 @@ final class Version20221215105404 extends AbstractMigration
         $this->addSql('ALTER TABLE lien_tags ADD CONSTRAINT FK_8C31C3C6EDAAC352 FOREIGN KEY (lien_id) REFERENCES lien (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE lien_tags ADD CONSTRAINT FK_8C31C3C68D7B4FB4 FOREIGN KEY (tags_id) REFERENCES tags (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         // $this->addSql('DROP TABLE messenger_messages');
-        $this->addSql('DROP TABLE article');
+        // $this->addSql('DROP TABLE article');
         $this->addSql('ALTER TABLE lien ALTER created_at TYPE TIMESTAMP(0) WITHOUT TIME ZONE');
         $this->addSql('ALTER TABLE lien ALTER created_at DROP NOT NULL');
         $this->addSql('COMMENT ON COLUMN lien.created_at IS NULL');
