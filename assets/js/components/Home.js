@@ -50,6 +50,11 @@ const Home = () =>{
             <Liens lesLiens={liens} isConnected={isConnected} supp={suppr} />
           </section>
         </article>
+        <footer className="d-flex justify-content-center">
+          <a href="https://github.com/baudelotphilippe/veille">
+          <i className="fa-brands fa-github"></i>
+          </a>
+        </footer>
       </div>
     );
   }
