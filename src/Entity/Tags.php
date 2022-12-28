@@ -15,10 +15,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=TagsRepository::class)
  * @ApiResource(
  *     normalizationContext={"groups"={"tag:read"}},
- *     denormalizationContext={"groups"={"tag:write"}}),
+ *     denormalizationContext={"groups"={"tag:write"}},
  *     order={"label"="ASC"}
+ * )
  */
-// #[ApiResource]
 class Tags
 {
     /**
