@@ -13,11 +13,11 @@ const Login = (props) => {
     const errors = {};
 
     if (!values.username) {
-      errors.username = "Username is required!";
+      errors.username = "Veuillez saisir un email";
     }
 
     if (!values.password) {
-      errors.password = "Password is required!";
+      errors.password = "Veuillez saisir un mot de passe";
     }
     return errors;
   };
@@ -25,20 +25,16 @@ const Login = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setFormErrors(validate(user));
-    // console.log("formErrors", formErrors);
     setIsSubmit(true);
   };
 
   const handleChange = (e) => {
     // e => setUser({...user, username: e.target.value})
-    // console.log(e,e.target)
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
 
   useEffect(() => {
-    // console.log("in useeffect for errors");
-    // console.log("formErrors", formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       AxiosServices.authenticate(user)
         .then(() => navigate("/"))
@@ -54,7 +50,7 @@ const Login = (props) => {
       <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
         <div className="mb-3">
           <label className="form-label">
-            Login :
+            Email :
             <input
               type="text"
               name="username"

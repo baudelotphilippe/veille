@@ -25,22 +25,20 @@ const Register = (props) => {
     const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
     if (!values.username) {
-      errors.username = "Username is required";
+      errors.username = "Un nom d'utilisateur est requis";
     }
-    if (!values.name) {
-      errors.name = "Name is required!";
-    }
+
     if (!values.email) {
-      errors.email = "Email is required!";
+      errors.email = "Un email est requis";
     } else if (!regex.test(values.email)) {
-      errors.email = "This is not a valid email format!";
+      errors.email = "Ce format n'est pas valide";
     }
     if (!values.password) {
-      errors.password = "Password is required!";
+      errors.password = "Un mot de passe est requis";
     } else if (values.password < 4) {
-      errors.password = "Password must be more than 4 characters";
+      errors.password = "Le mot de passe doit comporter au moins 4 caractères";
     } else if (values.password > 16) {
-      errors.password = "Password cannot be more than 16 characters";
+      errors.password = "Le mot de passe ne doit pas dépasser 16 caractères";
     }
     return errors;
   };
@@ -55,7 +53,12 @@ const Register = (props) => {
       AxiosServices.createUser(user)
       .then(() => navigate("/"))
       .catch((e) => {
-        setErrorFromAPI(e.response.data["hydra:description"]);
+        const messageErreur=e.response.data["hydra:description"];
+        if (messageErreur.indexOf("Key (email)=")!==-1) {
+          setErrorFromAPI("Cet email est déjà utilisé");
+        }else {
+        setErrorFromAPI(messageErreur);
+      }
       });
     }
   }, [formErrors]
@@ -67,22 +70,7 @@ const Register = (props) => {
       <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
         <div className="mb-3">
           <label className="form-label">
-            Nom :
-            <input
-              type="text"
-              name="name"
-              value={user.name}
-              onChange={handleChange}
-              className="form-control"
-            />{" "}
-          </label>
-          {formErrors.name && (
-            <div className="alert alert-danger mt-1">{formErrors.name}</div>
-          )}
-        </div>
-        <div className="mb-3">
-          <label className="form-label">
-            Email :
+            Email
             <input
               type="text"
               name="email"
@@ -97,7 +85,7 @@ const Register = (props) => {
         </div>
         <div className="mb-3">
           <label className="form-label">
-            Username :
+            Nom d'utilisateur
             <input
               type="text"
               name="username"
@@ -112,7 +100,7 @@ const Register = (props) => {
         </div>
         <div className="mb-3">
           <label className="form-label">
-            Password (4 à 16 chars) :
+            Mot de passe (de 4 à 16 caractères)
             <input
               type="password"
               name="password"

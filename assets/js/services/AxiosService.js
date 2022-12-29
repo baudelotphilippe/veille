@@ -7,7 +7,7 @@ export function authenticate(credentials) {
     .then((response) => response.data.token)
     .then((token) => {
       localStorage.setItem("authToken", token);
-      console.log(token);
+      // console.log(token);
       setAxiosToken(token);
     });
 }
