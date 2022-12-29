@@ -59,6 +59,15 @@ export function loadAll() {
   });
 }
 
+export function loadByTag(id) {
+  return axios.get(`${process.env.URL_PROJECT}${id}/liens`)
+  .then( (res)=> {
+    return res.data["hydra:member"];
+  }
+
+  )
+}
+
 export function supprime(id) {
   console.log("delete", id);
   return axios

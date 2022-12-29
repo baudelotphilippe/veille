@@ -22,3 +22,7 @@ section{
     color: #d00c0c;
     cursor: pointer;
 }
+
+.pointeur:hover{
+    cursor: pointer;
+}

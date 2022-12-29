@@ -1,9 +1,14 @@
 import React, { useEffect } from "react";
 
-const Liens = ({ lesLiens, isConnected, supp }) => {
+const Liens = ({ lesLiens, isConnected, supp, filter }) => {
+  console.log(lesLiens)
+
   const handleSupp = (id) => {
     supp(id);
   };
+  const filterByTag = (id) => {
+    filter(id)
+  }
   return (
     <>
       {lesLiens.map((lien) => {
@@ -29,7 +34,7 @@ const Liens = ({ lesLiens, isConnected, supp }) => {
             </div>
             <div>
               { lien.tags.map((tag)=> 
-                <span className="badge bg-info text-dark mx-1">{tag.label}</span>
+                <span className="badge bg-info text-dark mx-1 pointeur" onClick={() => filterByTag(tag)}>{tag.label}</span>
               )}
             </div>
           </div>
