@@ -1,13 +1,14 @@
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 export function authenticate(credentials) {
-  console.log("validate");
+  // console.log("validate");
   return axios
     .post(`${process.env.URL_PROJECT}api/login`, credentials)
     .then((response) => response.data.token)
     .then((token) => {
       localStorage.setItem("authToken", token);
-      console.log(token);
+      // console.log(token);
       setAxiosToken(token);
     });
 }
@@ -23,10 +24,22 @@ export function createUser(credentials) {
     });
 }
 
+export function infoUser() {
+  return axios
+  .post(`${process.env.URL_PROJECT}api/me`)
+  .then((response)=>response.data.token)
+}
+
 export function isConnected() {
-  const tokenString = localStorage.getItem("authToken");
-  const userToken = tokenString !== null ? true : false;
-  return userToken;
+  const tokenString = localStorage.getItem("authToken");  
+  if (tokenString) {
+    const { exp: expiration } = jwt_decode(tokenString);
+    if (expiration * 1000 > new Date().getTime()) {
+      return true;
+    }
+    return false;
+  }
+  return false;
 }
 
 export function logout() {
@@ -36,6 +49,20 @@ export function logout() {
 const setAxiosToken = (token) => {
   axios.defaults.headers["Authorization"] = "Bearer " + token;
 };
+
+export function verifTokenExist () {
+  const token = window.localStorage.getItem("authToken");
+  if (token) {
+    const { exp: expiration } = jwt_decode(token);
+    if (expiration * 1000 > new Date().getTime()) {
+      setAxiosToken(token);
+      console.log("set Token after reload");
+    }else{
+      console.log("token expired", expiration * 1000);
+
+    }
+  }
+}
 
 const loadAllUser = () => {
   axios.get(`${process.env.URL_PROJECT}api/users`).then((res) => {
