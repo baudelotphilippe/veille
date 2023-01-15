@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as AxiosServices from "../services/AxiosService";
 
 function Topbar ({isConnected, deconnected}){
+    const [nameUser,setNameUser]=useState("")
 
+    useEffect(()=>{
+        AxiosServices.infoUser()
+        .then((response) => {
+            setNameUser(response)
+            console.log("get name")
+        })
+        .catch((e) => {
+            console.log("error")
+        });
+    },[])
 
     const logout = () => {
         AxiosServices.logout();
@@ -14,7 +25,10 @@ function Topbar ({isConnected, deconnected}){
         if (isConnected) {
             return(
                 <>
-                    <button onClick={logout} className="btn btn-sm btn-danger">logout</button>
+                    <div className="d-flex">
+                        Bonjour {nameUser}
+                        <button onClick={logout} className="ms-3 btn btn-sm btn-danger">logout</button>
+                    </div>
                 </>
             )
         }else {

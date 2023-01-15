@@ -27,7 +27,9 @@ export function createUser(credentials) {
 export function infoUser() {
   return axios
   .post(`${process.env.URL_PROJECT}api/me`)
-  .then((response)=>response.data.token)
+  .then((response)=>{
+    return response.data.name
+  })
 }
 
 export function isConnected() {
