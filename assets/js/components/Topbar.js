@@ -35,9 +35,9 @@ function Topbar({ isConnected, deconnected }) {
   };
   const updateProfil = (e) => {
     e.preventDefault();
-    AxiosServices.updateProfil(idUser, {name:newNameUser})
-    setNameUser(newNameUser)
-    toggleUpdateProfil()
+    AxiosServices.updateProfil(idUser, {name:newNameUser});
+    setNameUser(newNameUser);
+    toggleUpdateProfil();
   };
   const handleChange=(e)=>{
     setNewNameUser(e.target.value)
