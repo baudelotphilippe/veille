@@ -28,8 +28,13 @@ export function infoUser() {
   return axios
   .post(`${process.env.URL_PROJECT}api/me`)
   .then((response)=>{
-    return response.data.name
+    return response.data
   })
+}
+
+export function updateProfil(id, newProfil) {
+  return axios
+  .put(`${process.env.URL_PROJECT}api/users/${id}`, newProfil)
 }
 
 export function isConnected() {
