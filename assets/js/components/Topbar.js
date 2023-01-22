@@ -17,6 +17,8 @@ function Topbar({ isConnected, deconnected }) {
   const [idUser, setIdUser] = useState("");
 
   const [newNameUser, setNewNameUser] = useState(nameUser);
+  const [newMdp, setNewMdp]=useState("")
+  const [errorFromAPI, setErrorFromAPI]= useState("")
   
   useEffect(() => {
     AxiosServices.infoUser()
@@ -35,12 +37,43 @@ function Topbar({ isConnected, deconnected }) {
   };
   const updateProfil = (e) => {
     e.preventDefault();
-    AxiosServices.updateProfil(idUser, {name:newNameUser});
-    setNameUser(newNameUser);
-    toggleUpdateProfil();
+    if (!newNameUser) {
+      setErrorFromAPI("Profil is required!");
+    }else {
+      AxiosServices.updateUser(idUser, {name:newNameUser})
+      .then(() => {
+        setNameUser(newNameUser);
+        toggleUpdateProfil();
+      })
+      .catch((e) =>{
+        setErrorFromAPI(e.response.data["hydra:description"])
+      }
+      )
+    }
   };
-  const handleChange=(e)=>{
+
+  const updateMdp = (e) => {
+    e.preventDefault();
+    if (!newMdp) {
+      setErrorFromAPI("Password is required!");
+    } else if (newMdp.length < 4) {
+      setErrorFromAPI("Password must be more than 4 characters");
+    } else if (newMdp.length > 16) {
+      setErrorFromAPI("Password cannot be more than 16 characters");
+    } else {
+      AxiosServices.updateUser(idUser, {password:newMdp})
+      .then(() =>toggleUpdatePassword())
+      .catch((e) =>{
+        setErrorFromAPI(e.response.data["hydra:description"])
+      }
+      )
+    }
+  };
+  const handleChangeName=(e)=>{
     setNewNameUser(e.target.value)
+  }
+  const handleChangePwd=(e)=>{
+    setNewMdp(e.target.value)
   }
   // const connected=this.state.userConnected
   if (isConnected) {
@@ -91,7 +124,7 @@ function Topbar({ isConnected, deconnected }) {
                 placeholder="Profil"
                 name="profilName"
                 value={newNameUser}
-                onChange={handleChange}
+                onChange={handleChangeName}
               />
             </div>
             <div className="form-group">
@@ -101,26 +134,32 @@ function Topbar({ isConnected, deconnected }) {
                 className="btn btn-primary"
               />
             </div>
+            {errorFromAPI && (
+              <div className="alert alert-danger mt-3">{errorFromAPI}</div>
+            )}
           </form>
         </Modal>
         <Modal
           isShowing={isRegistrationFormShowed}
           hide={toggleUpdatePassword}
-          title="Register"
+          title="Mettre à jour le mot de passe"
         >
-          <form>
+          <form onSubmit={updateMdp}>
             <div className="form-group">
-              <input type="text" placeholder="Email Address" />
+              <input type="password" placeholder="Password" 
+                className="form-control mb-2"
+                onChange={handleChangePwd}
+                value={newMdp}
+                />
             </div>
             <div className="form-group">
-              <input type="text" placeholder="Username" />
+              <input type="submit" value="Enregistrer" 
+                className="btn btn-primary"
+                />
             </div>
-            <div className="form-group">
-              <input type="text" placeholder="Password" />
-            </div>
-            <div className="form-group">
-              <input type="submit" value="Register" />
-            </div>
+            {errorFromAPI && (
+              <div className="alert alert-danger mt-3">{errorFromAPI}</div>
+            )}
           </form>
         </Modal>
       </>

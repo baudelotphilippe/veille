@@ -32,9 +32,10 @@ export function infoUser() {
   })
 }
 
-export function updateProfil(id, newProfil) {
+export function updateUser(id, newProfil) {
   return axios
   .put(`${process.env.URL_PROJECT}api/users/${id}`, newProfil)
+  .then(response => response)
 }
 
 export function isConnected() {
