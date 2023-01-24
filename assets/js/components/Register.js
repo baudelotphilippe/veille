@@ -24,9 +24,6 @@ const Register = (props) => {
     const errors = {};
     const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-    if (!values.username) {
-      errors.username = "Username is required";
-    }
     if (!values.name) {
       errors.name = "Name is required!";
     }
@@ -55,7 +52,13 @@ const Register = (props) => {
       AxiosServices.createUser(user)
       .then(() => navigate("/"))
       .catch((e) => {
-        setErrorFromAPI(e.response.data["hydra:description"]);
+        const errMessage=e.response.data["hydra:description"]
+        console.log(errMessage)
+        if (errMessage.includes("23505")&&errMessage.includes(" Key (email)")) {
+          setErrorFromAPI("Cet email est déjà utilisé");
+        }else{
+          setErrorFromAPI(errMessage);
+        }
       });
     }
   }, [formErrors]
@@ -93,21 +96,6 @@ const Register = (props) => {
           </label>
           {formErrors.email && (
             <div className="alert alert-danger mt-1">{formErrors.email}</div>
-          )}
-        </div>
-        <div className="mb-3">
-          <label className="form-label">
-            Username :
-            <input
-              type="text"
-              name="username"
-              value={user.username}
-              onChange={handleChange}
-              className="form-control"
-            />{" "}
-          </label>
-          {formErrors.username && (
-            <div className="alert alert-danger mt-1">{formErrors.username}</div>
           )}
         </div>
         <div className="mb-3">
