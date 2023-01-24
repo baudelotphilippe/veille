@@ -70,7 +70,7 @@ const Register = (props) => {
       <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
         <div className="mb-3">
           <label className="form-label">
-            Nom :
+            Profil :
             <input
               type="text"
               name="name"
