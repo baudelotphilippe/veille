@@ -30,15 +30,11 @@ const Login = (props) => {
   };
 
   const handleChange = (e) => {
-    // e => setUser({...user, username: e.target.value})
-    // console.log(e,e.target)
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
 
   useEffect(() => {
-    // console.log("in useeffect for errors");
-    // console.log("formErrors", formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       AxiosServices.authenticate(user)
         .then(() => navigate("/"))
@@ -54,7 +50,7 @@ const Login = (props) => {
       <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
         <div className="mb-3">
           <label className="form-label">
-            Login :
+            Email :
             <input
               type="text"
               name="username"
