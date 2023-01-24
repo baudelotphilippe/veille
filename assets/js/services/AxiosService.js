@@ -2,7 +2,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 
 export function authenticate(credentials) {
-  // console.log("validate");
+  // console.log("validate",credentials);
   return axios
     .post(`${process.env.URL_PROJECT}api/login`, credentials)
     .then((response) => response.data.token)
@@ -14,14 +14,17 @@ export function authenticate(credentials) {
 }
 
 export function createUser(credentials) {
-  // console.log(credentials)
+   console.log(credentials)
   return axios
     .post(`${process.env.URL_PROJECT}api/users`, credentials)
-    .then((response) => response.data.token)
-    .then((token) => {
-      localStorage.setItem("authToken", token);
-      // setAxiosToken(token);
-    });
+    .then((response) =>  {
+      console.log(response);
+      response.data.token;
+    })
+    // .then((token) => {
+    //   localStorage.setItem("authToken", token);
+    //   setAxiosToken(token);
+    // });
 }
 
 export function infoUser() {
