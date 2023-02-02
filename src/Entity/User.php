@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -60,9 +62,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read", "write"})
+     * @Groups({"read", "write", "lien:read"})
      */
     private $name;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Lien::class, mappedBy="createur")
+     * @Groups({"read"})
+     * 
+     */
+    private $liens;
+
+    public function __construct()
+    {
+        $this->liens = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -179,6 +193,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Lien>
+     */
+    public function getLiens(): Collection
+    {
+        return $this->liens;
+    }
+
+    public function addLien(Lien $lien): self
+    {
+        if (!$this->liens->contains($lien)) {
+            $this->liens[] = $lien;
+            $lien->setCreateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLien(Lien $lien): self
+    {
+        if ($this->liens->removeElement($lien)) {
+            // set the owning side to null (unless already changed)
+            if ($lien->getCreateur() === $this) {
+                $lien->setCreateur(null);
+            }
+        }
 
         return $this;
     }
