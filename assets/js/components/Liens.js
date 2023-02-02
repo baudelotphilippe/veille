@@ -20,11 +20,16 @@ const Liens = ({ lesLiens, isConnected, supp, filter }) => {
               <a href={lien.url}>{lien.url}</a>
             </div>
             <div className="mt-2 heure d-flex justify-content-between align-items-center">
-              <span>
-                <i className="me-2 fa-solid fa-clock"></i>
-                {dayPublish[2]} {dayPublish[1]} {dayPublish[0]}
-              </span>
-
+              <div>
+                <span className="me-2 ">
+                  <i className="me-1 fa-solid fa-clock"></i>
+                  {dayPublish[2]} {dayPublish[1]} {dayPublish[0]}
+                </span>
+                <span>
+                  <i class="me-1 fa-solid fa-user-pen"></i>
+                  {lien.createur.name}
+                </span>
+              </div>
               {isConnected && (
                 <i
                   className="fa-solid fa-trash delete"
