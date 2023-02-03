@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  *
@@ -31,14 +32,21 @@ class LienDataPersister implements ContextAwareDataPersisterInterface
      */
     private $_request;
 
+    /**
+     * @param Security
+     */
+    private $_security;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         SluggerInterface $slugger,
-        RequestStack $request
+        RequestStack $request,
+        Security $security,
     ) {
         $this->_entityManager = $entityManager;
         $this->_slugger = $slugger;
         $this->_request = $request->getCurrentRequest();
+        $this->_security = $security;
     }
 
     /**
@@ -66,6 +74,11 @@ class LienDataPersister implements ContextAwareDataPersisterInterface
             } else {
                 $this->_entityManager->persist($tag);
             }
+        }
+
+        // Set the author if it's a new article
+        if ($this->_request->getMethod() === 'POST') {
+            $data->setCreateur($this->_security->getUser());
         }
 
         $this->_entityManager->persist($data);

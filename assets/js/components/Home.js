@@ -9,6 +9,7 @@ const Home = () =>{
   const [liens, setLiens]=useState([]);
   const [isConnected, setIsConnected]= useState(false)
   const [tagFilter, setTagFilter]=useState("")
+  const [monIdUser, setMonIdUser] = useState("");
 
   useEffect( () => {
     AxiosServices.isConnected() ? setIsConnected(true) : setIsConnected(false);
@@ -18,12 +19,13 @@ const Home = () =>{
   )
 
   const deconnected= ()=>{
-    console.log('deco')
     setIsConnected(false)
   }
-
+  const infoIdUser= (id)=>{
+     setMonIdUser(id)
+    console.log("user", id)
+  }
   const loadAll= ()=> {
-    // console.log("inside load all")
     AxiosServices.loadAll()
     .then((data) =>  setLiens( data ))
   }
@@ -50,7 +52,7 @@ const Home = () =>{
         <div className="row">
         <div className="d-flex align-items-center justify-content-between">
         <h1>Gestionnaire de liens</h1>
-        <Topbar isConnected={isConnected} deconnected={deconnected}/>
+        <Topbar isConnected={isConnected} deconnected={deconnected} monIdUser={infoIdUser} />
         </div>
 
         <article>
@@ -64,7 +66,7 @@ const Home = () =>{
                <div className="col my-2 ms-2">Filtre : <span className="badge bg-info text-dark pointeur" onClick={resetTag}>{tagFilter} X</span></div>
           }
           <section className="mt-3">
-            <Liens lesLiens={liens} isConnected={isConnected} supp={suppr} filter={filterTag}/>
+            <Liens lesLiens={liens} isConnected={isConnected} idUser={monIdUser} supp={suppr} filter={filterTag}/>
           </section>
         </article>
         <footer className="d-flex justify-content-center">

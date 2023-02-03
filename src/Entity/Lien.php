@@ -50,6 +50,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
      */
     private $tags;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="liens")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"lien:read"})
+     */
+    private $createur;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -104,6 +111,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
     public function removeTag(Tags $tag): self
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getCreateur(): ?User
+    {
+        return $this->createur;
+    }
+
+    public function setCreateur(?User $createur): self
+    {
+        $this->createur = $createur;
 
         return $this;
     }
