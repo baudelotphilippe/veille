@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
-const Liens = ({ lesLiens, isConnected, supp, filter }) => {
-  console.log(lesLiens)
+const Liens = ({ lesLiens, isConnected, supp, filter, idUser }) => {
+  console.log("liens",idUser)
 
   const handleSupp = (id) => {
     supp(id);
@@ -14,6 +14,8 @@ const Liens = ({ lesLiens, isConnected, supp, filter }) => {
       {lesLiens.map((lien) => {
         const datePublish = lien.createdAt.split("T");
         const dayPublish = datePublish[0].split("-");
+        let idUserLien=((lien.createur['@id']).split("/"))[3]
+        // console.log(idUserLien)
         return (
           <div className="lien m-1 p-3" key={lien.id}>
             <div className="">
@@ -26,11 +28,12 @@ const Liens = ({ lesLiens, isConnected, supp, filter }) => {
                   {dayPublish[2]} {dayPublish[1]} {dayPublish[0]}
                 </span>
                 <span>
-                  <i class="me-1 fa-solid fa-user-pen"></i>
+                  <i className="me-1 fa-solid fa-user-pen"></i>
                   {lien.createur.name}
                 </span>
               </div>
-              {isConnected && (
+
+              {isConnected && idUserLien==idUser && (
                 <i
                   className="fa-solid fa-trash delete"
                   onClick={() => handleSupp(lien.id)}

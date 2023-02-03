@@ -5,7 +5,7 @@ import "@popperjs/core";
 import useModal from "./useModal";
 import Modal from "./modal";
 
-function Topbar({ isConnected, deconnected }) {
+function Topbar({ isConnected, deconnected, monIdUser }) {
   const { isShowing: isLoginFormShowed, toggle: toggleUpdateProfil } =
     useModal();
   const {
@@ -25,6 +25,7 @@ function Topbar({ isConnected, deconnected }) {
       .then((response) => {
         setNameUser(response.name);
         setIdUser(response.id);
+        monIdUser(response.id);
       })
       .catch((e) => {
         console.log("error");
@@ -83,7 +84,7 @@ function Topbar({ isConnected, deconnected }) {
           Bonjour {nameUser}
           <div className="dropdown ms-3">
             <button
-              class="btn btn-secondary dropdown-toggle"
+              className="btn btn-secondary dropdown-toggle"
               type="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
