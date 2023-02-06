@@ -21,7 +21,7 @@ final class Version20230129071455 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         //$this->addSql('DROP SEQUENCE lestags_id_seq CASCADE'); commenté pour Heroku
-        $this->addSql('DROP TABLE lestags');
+        //$this->addSql('DROP TABLE lestags'); commenté pour Heroku
         // ajouter 17 pour permettre la migration sur un user existant ...
         $this->addSql('ALTER TABLE lien ADD createur_id INT NOT NULL default 17');
         $this->addSql('ALTER TABLE lien ADD CONSTRAINT FK_A532B4B573A201E5 FOREIGN KEY (createur_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
