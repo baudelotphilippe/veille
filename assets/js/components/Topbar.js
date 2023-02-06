@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import * as AxiosServices from "../services/AxiosService";
 import "@popperjs/core";
 import useModal from "./useModal";
-import Modal from "./modal";
+import Modal from "./Modal";
 
 function Topbar({ isConnected, deconnected, monIdUser }) {
   const { isShowing: isLoginFormShowed, toggle: toggleUpdateProfil } =
