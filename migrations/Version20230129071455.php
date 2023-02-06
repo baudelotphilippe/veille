@@ -20,7 +20,7 @@ final class Version20230129071455 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP SEQUENCE lestags_id_seq CASCADE');
+        //$this->addSql('DROP SEQUENCE lestags_id_seq CASCADE'); commenté pour Heroku
         $this->addSql('DROP TABLE lestags');
         // ajouter 17 pour permettre la migration sur un user existant ...
         $this->addSql('ALTER TABLE lien ADD createur_id INT NOT NULL default 17');
