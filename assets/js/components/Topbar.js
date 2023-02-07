@@ -21,6 +21,7 @@ function Topbar({ isConnected, deconnected, monIdUser }) {
   const [errorFromAPI, setErrorFromAPI]= useState("")
   
   useEffect(() => {
+    if (isConnected) {
     AxiosServices.infoUser()
       .then((response) => {
         setNameUser(response.name);
@@ -30,7 +31,8 @@ function Topbar({ isConnected, deconnected, monIdUser }) {
       .catch((e) => {
         console.log("error");
       });
-  }, []);
+    }
+  }, [isConnected]);
 
   const logout = () => {
     AxiosServices.logout();
