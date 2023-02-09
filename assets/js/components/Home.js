@@ -28,6 +28,9 @@ const Home = () =>{
   const loadAll= ()=> {
     AxiosServices.loadAll()
     .then((data) =>  setLiens( data ))
+    .catch((e) => {
+      alert("Chargement des liens impossible");
+    });
   }
 
   const suppr = (id) => {
@@ -79,4 +82,5 @@ const Home = () =>{
     );
   }
 
+  
 export default Home;
