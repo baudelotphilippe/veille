@@ -76,3 +76,7 @@ section {
   border: none;
   background: transparent;
 }
+
+footer a{
+  text-decoration: none;
+}
