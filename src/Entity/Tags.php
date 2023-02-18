@@ -12,33 +12,33 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=TagsRepository::class)
  * @ApiResource(
  *     normalizationContext={"groups"={"tag:read"}},
  *     denormalizationContext={"groups"={"tag:write"}},
  *     order={"label"="ASC"}
  * )
  */
+#[ORM\Entity(repositoryClass: TagsRepository::class)]
 class Tags
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      * @Groups("tag:read")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
      * @Groups({"tag:read", "tag:write", "lien:read", "lien:write"})
      */
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $label;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Lien::class, mappedBy="tags")
      * @ApiSubresource
      */
+    #[ORM\ManyToMany(targetEntity: Lien::class, mappedBy: 'tags')]
     private $liens;
 
     public function __construct()

@@ -6,7 +6,7 @@ namespace App\DataPersister;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  *
@@ -14,14 +14,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserDataPersister implements ContextAwareDataPersisterInterface
 {
     private $_entityManager;
-    private $_passwordEncoder;
+    private $_hasher;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        UserPasswordEncoderInterface $passwordEncoder
+        UserPasswordHasherInterface $hasher
     ) {
         $this->_entityManager = $entityManager;
-        $this->_passwordEncoder = $passwordEncoder;
+        $this->_hasher = $hasher;
     }
 
     /**
@@ -39,7 +39,7 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
     {
         if ($data->getPlainPassword()) {
             $data->setPassword(
-                $this->_passwordEncoder->encodePassword(
+                $this->_hasher->hashPassword(
                     $data,
                     $data->getPlainPassword()
                 )

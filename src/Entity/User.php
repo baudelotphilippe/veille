@@ -13,39 +13,39 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
- * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table("`user`")
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
  *     denormalizationContext={"groups"={"write"}}
  * )
  */
+#[ORM\Table('`user`')]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      * @Groups("read")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"read", "write"})
      */
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
     private $email;
 
     /**
-     * @ORM\Column(type="json")
      * @Groups("read")
      */
+    #[ORM\Column(type: 'json')]
     private $roles = [];
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $password;
 
      /**
@@ -55,22 +55,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $plainPassword;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Groups({"read", "write"})
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Groups({"read", "write", "lien:read"})
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Lien::class, mappedBy="createur")
      * @Groups({"read"})
-     * 
+     *
      */
+    #[ORM\OneToMany(targetEntity: Lien::class, mappedBy: 'createur')]
     private $liens;
 
     public function __construct()

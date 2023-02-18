@@ -12,49 +12,47 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /** 
-  * @ApiResource( 
-  *      normalizationContext={"groups"={"lien:read"}},
-  *      denormalizationContext={"groups"={"lien:write"}},
-  *      order={"createdAt"="DESC"}
-  * )
-  * @ORM\Entity(repositoryClass=LienRepository::class)
-  */
+   * @ApiResource( 
+   *      normalizationContext={"groups"={"lien:read"}},
+   *      denormalizationContext={"groups"={"lien:write"}},
+   *      order={"createdAt"="DESC"}
+   * )
+   */
+  #[ORM\Entity(repositoryClass: LienRepository::class)]
   class Lien
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     * 
+     *
      * @Groups("lien:read")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=500)
-     * 
      *  @Groups({"lien:read","lien:write"})
      */
+    #[ORM\Column(type: 'string', length: 500)]
     private $url;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * 
      *  @Groups("lien:read")
      */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tags::class, inversedBy="liens", cascade={"persist"})
      * @Groups({"lien:read","lien:write"})
      */
+    #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'liens', cascade: ['persist'])]
     private $tags;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="liens")
-     * @ORM\JoinColumn(nullable=false)
      * @Groups({"lien:read"})
      */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'liens')]
+    #[ORM\JoinColumn(nullable: false)]
     private $createur;
 
     public function __construct()
