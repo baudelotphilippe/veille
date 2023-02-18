@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Liens from "./Liens";
 import AddLien from "./AddLien";
 import Topbar from "./Topbar";
-
+import { octokit } from "../services/octokit";
 import * as AxiosServices from "../services/AxiosService";
 
 const Home = () =>{
@@ -10,13 +10,22 @@ const Home = () =>{
   const [isConnected, setIsConnected]= useState(false)
   const [tagFilter, setTagFilter]=useState("")
   const [monIdUser, setMonIdUser] = useState("");
+  const [tagName, setTagName]=useState("");
 
   useEffect( () => {
     AxiosServices.isConnected() ? setIsConnected(true) : setIsConnected(false);
     loadAll();
+    const fetchLastRelease = async () => {
+      const {data: {tag_name}}=await octokit.request("GET /repos/{owner}/{repo}/releases/latest", {
+        owner: "baudelotphilippe",
+        repo: "veille",
+      });
+      setTagName(tag_name);
     }
-    ,[]
-  )
+    fetchLastRelease()
+    .catch(console.error);
+  },[]
+  );
 
   const deconnected= ()=>{
     setIsConnected(false)
@@ -50,6 +59,7 @@ const Home = () =>{
     setTagFilter("");
     loadAll();
   }
+
     return (
       <div className="container">
         <div className="row">
@@ -74,7 +84,7 @@ const Home = () =>{
         </article>
         <footer className="d-flex justify-content-center">
           <a href="https://github.com/baudelotphilippe/veille">
-          <i className="fa-brands fa-github"></i>
+          <i className="fa-brands fa-github me-2"></i> {tagName}
           </a>
         </footer>
         </div>
